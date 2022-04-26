@@ -4,7 +4,8 @@ const todo = (title, description, dueDate, priority, type) => {
   this.dueDate = dueDate;
   this.priority = priority;
   this.type = type;
-  let done = false;
+  let status = false;
+
   const getTitle = () => {
     return this.title;
   };
@@ -37,9 +38,41 @@ const todo = (title, description, dueDate, priority, type) => {
   };
 
   const changeStatus = () => {
-    done = !done;
-  }
+    status = !status;
+  };
+  const getStatus = () => {
+    return status;
+  };
 
   return {getTitle, setTitle, getDescription, setDescription, getDueDate, 
-    setDueDate, getPriority, setPriority, getType, setType, changeStatus};
+    setDueDate, getPriority, setPriority, getType, setType, changeStatus,
+    getStatus};
 };
+
+const project = (title, description) => {
+  this.title = title;
+  this.description = description;
+  let todos = [];
+
+  const getTitle = () => {
+    return this.title;
+  };
+  const setTitle = (newTitle) => {
+    this.title = newTitle;
+  }
+  const getDescription = () => {
+    return this.description;
+  };
+  const setDescription = (newDescription) => {
+    this.description = newDescription;
+  };
+
+  const addTodo = (newTodo) => {
+    todos.push(newTodo);
+  };
+  const removeTodo = (badTodo) => {
+    todos.splice(todos.indexOf(badTodo), 1);
+  };
+
+  return {getTitle, setTitle, getDescription, setDescription, addTodo, removeTodo};
+}
