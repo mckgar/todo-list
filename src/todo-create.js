@@ -76,3 +76,49 @@ const project = (title, description) => {
 
   return {getTitle, setTitle, getDescription, setDescription, addTodo, removeTodo};
 }
+
+const note = (title, description) => {
+  this.title = title;
+  this.description = description;
+
+  const getTitle = () => {
+    return this.title;
+  };
+  const setTitle = (newTitle) => {
+    this.title = newTitle;
+  };
+  const getDescription = () => {
+    return this.description;
+  };
+  const setDescription = (newDescription) => {
+    this.description = newDescription;
+  };
+
+  return {getTitle, setTitle, getDescription, setDescription};
+}
+
+const checklist = (title) => {
+  this.title = title;
+  let list = [];
+
+  const getTitle = () => {
+    return this.title;
+  };
+  const setTitle = (newTitle) => {
+    this.title = newTitle;
+  };
+
+  const addItem = (title) => {
+    list.push({name: title, completed: false});
+  };
+  const removeItem = (item) => {
+    list.splice(list.indexOf(item), 1);
+  }
+  const checkItem = (item) => {
+    item.completed = !(item.completed);
+  };
+
+  return {getTitle, setTitle, addItem, removeItem, checkItem}
+}
+
+export {todo, project, note, checklist};
