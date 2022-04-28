@@ -4,7 +4,9 @@ const todo = (title, description, dueDate, priority, type) => {
   this.dueDate = dueDate;
   this.priority = priority;
   this.type = type;
+
   let status = false;
+  let list = [];
 
   const getTitle = () => {
     return this.title;
@@ -44,9 +46,19 @@ const todo = (title, description, dueDate, priority, type) => {
     return status;
   };
 
+  const addItem = (title) => {
+    list.push({name: title, completed: false});
+  };
+  const removeItem = (item) => {
+    list.splice(list.indexOf(item), 1);
+  }
+  const checkItem = (item) => {
+    item.completed = !(item.completed);
+  };
+
   return {getTitle, setTitle, getDescription, setDescription, getDueDate, 
     setDueDate, getPriority, setPriority, getType, setType, changeStatus,
-    getStatus};
+    getStatus, addItem, removeItem, checkItem};
 };
 
 const project = (title, description) => {
@@ -95,30 +107,6 @@ const note = (title, description) => {
   };
 
   return {getTitle, setTitle, getDescription, setDescription};
-}
-
-const checklist = (title) => {
-  this.title = title;
-  let list = [];
-
-  const getTitle = () => {
-    return this.title;
-  };
-  const setTitle = (newTitle) => {
-    this.title = newTitle;
-  };
-
-  const addItem = (title) => {
-    list.push({name: title, completed: false});
-  };
-  const removeItem = (item) => {
-    list.splice(list.indexOf(item), 1);
-  }
-  const checkItem = (item) => {
-    item.completed = !(item.completed);
-  };
-
-  return {getTitle, setTitle, addItem, removeItem, checkItem}
 }
 
 export {todo, project, note, checklist};
