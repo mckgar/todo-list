@@ -64,7 +64,7 @@ const todo = (title, description, dueDate, priority, type) => {
 const project = (title, description) => {
   this.title = title;
   this.description = description;
-  let todos = [];
+  let todoList = [];
 
   const getTitle = () => {
     return this.title;
@@ -78,15 +78,19 @@ const project = (title, description) => {
   const setDescription = (newDescription) => {
     this.description = newDescription;
   };
+  const getTodoList = () => {
+    return todoList;
+  }
 
   const addTodo = (newTodo) => {
-    todos.push(newTodo);
+    todoList.push(newTodo);
   };
   const removeTodo = (badTodo) => {
-    todos.splice(todos.indexOf(badTodo), 1);
+    todoList.splice(todoList.indexOf(badTodo), 1);
   };
 
-  return {getTitle, setTitle, getDescription, setDescription, addTodo, removeTodo};
+  return {getTitle, setTitle, getDescription, setDescription, getTodoList, 
+    addTodo, removeTodo};
 }
 
 const note = (title, description) => {
