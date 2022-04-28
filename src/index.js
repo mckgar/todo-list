@@ -1,7 +1,9 @@
 import "./style.css";
-import "./todo-create.js";
+import {todo, project, note, checklist} from "./todo-create.js";
+import {displayController} from "./display-controller";
 
-const body = document.querySelector("body");
-const content = document.createElement("div");
-content.id = "content";
-body.appendChild(content);
+let projectList = [];
+let defaultProject = project("Default", "Default project");
+projectList.push(defaultProject);
+
+displayController.initialSetup(projectList);
