@@ -1,42 +1,36 @@
 const todo = (title, description, dueDate, priority, type) => {
-  this.title = title;
-  this.description = description;
-  this.dueDate = dueDate;
-  this.priority = priority;
-  this.type = type;
-
   let status = false;
   let list = [];
 
   const getTitle = () => {
-    return this.title;
+    return title;
   };
   const setTitle = (newTitle) => {
-    this.title = newTitle;
+    title = newTitle;
   }
   const getDescription = () => {
-    return this.description;
+    return description;
   };
   const setDescription = (newDescription) => {
-    this.description = newDescription;
+    description = newDescription;
   };
   const getDueDate = () => {
-    return this.dueDate;
+    return dueDate;
   };
   const setDueDate = (newDueDate) => {
-    this.dueDate = newDueDate;
+    dueDate = newDueDate;
   };
   const getPriority = () => {
-    return this.priority;
+    return priority;
   };
   const setPriority = (newPriority) => {
-    this.priority = newPriority;
+    priority = newPriority;
   };
   const getType = () => {
-    return this.type;
+    return type;
   };
   const setType = (newType) => {
-    this.type = newType;
+    type = newType;
   };
 
   const changeStatus = () => {
@@ -62,21 +56,19 @@ const todo = (title, description, dueDate, priority, type) => {
 };
 
 const project = (title, description) => {
-  this.title = title;
-  this.description = description;
   let todoList = [];
 
   const getTitle = () => {
-    return this.title;
+    return title;
   };
   const setTitle = (newTitle) => {
-    this.title = newTitle;
+    title = newTitle;
   }
   const getDescription = () => {
-    return this.description;
+    return description;
   };
   const setDescription = (newDescription) => {
-    this.description = newDescription;
+    description = newDescription;
   };
   const getTodoList = () => {
     return todoList;
@@ -94,23 +86,20 @@ const project = (title, description) => {
 }
 
 const note = (title, description) => {
-  this.title = title;
-  this.description = description;
-
   const getTitle = () => {
-    return this.title;
+    return title;
   };
   const setTitle = (newTitle) => {
-    this.title = newTitle;
+    title = newTitle;
   };
   const getDescription = () => {
-    return this.description;
+    return description;
   };
   const setDescription = (newDescription) => {
-    this.description = newDescription;
+    description = newDescription;
   };
 
   return {getTitle, setTitle, getDescription, setDescription};
 }
 
-export {todo, project, note, checklist};
+export {todo, project, note};
