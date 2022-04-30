@@ -7,7 +7,7 @@ const todo = (title, description, dueDate, priority, type) => {
   };
   const setTitle = (newTitle) => {
     title = newTitle;
-  }
+  };
   const getDescription = () => {
     return description;
   };
@@ -40,19 +40,22 @@ const todo = (title, description, dueDate, priority, type) => {
     return status;
   };
 
+  const getList = () => {
+    return list;
+  };
   const addItem = (title) => {
     list.push({name: title, completed: false});
   };
   const removeItem = (item) => {
     list.splice(list.indexOf(item), 1);
-  }
+  };
   const checkItem = (item) => {
     item.completed = !(item.completed);
   };
 
   return {getTitle, setTitle, getDescription, setDescription, getDueDate, 
     setDueDate, getPriority, setPriority, getType, setType, changeStatus,
-    getStatus, addItem, removeItem, checkItem};
+    getStatus, getList, addItem, removeItem, checkItem};
 };
 
 const project = (title, description) => {
@@ -72,7 +75,7 @@ const project = (title, description) => {
   };
   const getTodoList = () => {
     return todoList;
-  }
+  };
 
   const addTodo = (newTodo) => {
     todoList.push(newTodo);
