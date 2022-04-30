@@ -52,7 +52,7 @@
   grid-row: 2;
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 16rem);
+  grid-template-columns: repeat(auto-fit, 18rem);
   grid-auto-rows: 9rem;
   gap: 1rem;
 }
@@ -89,7 +89,7 @@
   grid-row: 2;
 
   display: grid;
-  grid-template-rows: repeat(2, auto) 1fr;
+  grid-template-rows: repeat(50, auto) 1fr;
   gap: 0.5rem;
 }
 
@@ -115,9 +115,4 @@
 
 .return {
   cursor: pointer;
-}
-
-.notes {
-  grid-column: 1 / -1;
-  grid-row: 2;
 }

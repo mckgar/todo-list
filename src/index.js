@@ -46,3 +46,27 @@ document.querySelector("#content").addEventListener("click", function(e) {
     displayController.projectsOverview(projectList);
   }
 });
+
+document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("div.new-project")) {
+    const newProject = project("New Project", "Description");
+    projectList.push(newProject);
+    displayController.addNewProject(newProject);
+  }
+});
+
+document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("div.new-note")) {
+    const newNote = project("New Note", "Description");
+    noteList.push(newNote);
+    displayController.addNewNote(newNote);
+  }
+});
+
+document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("div.new-todo")) {
+    const newTodo = todo("New Todo", "Description", "anytime", 5, "self-improvement");
+    noteList.push(newTodo);
+    displayController.addNewTodo(newTodo);
+  }
+});

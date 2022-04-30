@@ -60,10 +60,10 @@ const displayController = (() => {
     }
     main.appendChild(projects);
 
-    const addNewProject = document.createElement("div");
-    addNewProject.classList.add("add", "new-project");
-    addNewProject.textContent = "+";
-    main.appendChild(addNewProject);
+    const addNewProjectBtn = document.createElement("div");
+    addNewProjectBtn.classList.add("add", "new-project");
+    addNewProjectBtn.textContent = "+";
+    main.appendChild(addNewProjectBtn);
 
     return main;
   };
@@ -85,6 +85,12 @@ const displayController = (() => {
     card.addEventListener("click", () => projectFocus(project));
 
     return card;
+  };
+
+  const addNewProject = (project) => {
+    const projects = document.querySelector(".projects")
+    const newProject = __createProjectCard(project);
+    projects.appendChild(newProject);
   };
 
   const projectFocus = (project) => {
@@ -119,10 +125,10 @@ const displayController = (() => {
       projectInfo.appendChild(__createTodoCard(todo));
     }
 
-    const addNewTodo = document.createElement("div");
-    addNewTodo.classList.add("add", "new-todo");
-    addNewTodo.textContent = "+";
-    projectInfo.appendChild(addNewTodo);
+    const addNewTodoBtn = document.createElement("div");
+    addNewTodoBtn.classList.add("add", "new-todo");
+    addNewTodoBtn.textContent = "+";
+    projectInfo.appendChild(addNewTodoBtn);
 
     main.appendChild(projectInfo);
 
@@ -156,6 +162,12 @@ const displayController = (() => {
     card.addEventListener("click", () => __expandTodo(todo, card), {once: true});
 
     return card;
+  };
+
+  const addNewTodo = (todo) => {
+    const todos = document.querySelector(".project-info")
+    const newTodo = __createTodoCard(todo);
+    todos.appendChild(newTodo);
   };
 
   const __expandTodo = (todo, card) => {
@@ -220,10 +232,10 @@ const displayController = (() => {
     }
     main.appendChild(notes);
 
-    const addNewNote = document.createElement("div");
-    addNewNote.classList.add("add", "new-note");
-    addNewNote.textContent = "+";
-    main.appendChild(addNewNote);
+    const addNewNoteBtn = document.createElement("div");
+    addNewNoteBtn.classList.add("add", "new-note");
+    addNewNoteBtn.textContent = "+";
+    main.appendChild(addNewNoteBtn);
 
     return main;
   };
@@ -241,6 +253,12 @@ const displayController = (() => {
     card.addEventListener("click", () => __expandNote(note, card), {once: true});
 
     return card;
+  };
+
+  const addNewNote = (note) => {
+    const notes = document.querySelector(".notes")
+    const newNote = __createNoteCard(note);
+    notes.appendChild(newNote);
   };
 
   const __expandNote = (note, card) => {
@@ -283,7 +301,8 @@ const displayController = (() => {
     content.removeChild(main);
   };
 
-  return {initialSetup, projectsOverview, projectFocus, notesOverview, settingsOverview};
+  return {initialSetup, projectsOverview, projectFocus, notesOverview, settingsOverview,
+    addNewProject, addNewNote, addNewTodo};
 })();
 
 export {displayController};
