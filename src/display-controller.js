@@ -56,7 +56,7 @@ const displayController = (() => {
     projects.classList.add("projects");
 
     for(let i = 0; i < projectsList.length; i++) {
-      projects.appendChild(__createProjectCard(projectsList[i]));
+      projects.appendChild(__createProjectCard(projectsList[i], i));
     }
     main.appendChild(projects);
 
@@ -68,7 +68,7 @@ const displayController = (() => {
     return main;
   };
 
-  const __createProjectCard = (project) => {
+  const __createProjectCard = (project, index) => {
     const card = document.createElement("div");
     card.classList.add("card", "project");
 
@@ -82,7 +82,7 @@ const displayController = (() => {
     card.appendChild(title);
     card.appendChild(description);
 
-    card.addEventListener("click", () => projectFocus(project));
+    card.addEventListener("click", () => projectFocus(project, index));
 
     return card;
   };
@@ -93,15 +93,16 @@ const displayController = (() => {
     projects.appendChild(newProject);
   };
 
-  const projectFocus = (project) => {
+  const projectFocus = (project, index) => {
     const content = document.querySelector("#content");
     __deleteMain();
-    content.appendChild(__projectFocusMain(project));
+    content.appendChild(__projectFocusMain(project, index));
   };
 
-  const __projectFocusMain = (project) => {
+  const __projectFocusMain = (project, index) => {
     const main = document.createElement("div");
     main.id = "main";
+    main.classList.add(index);
 
     const title = document.createElement("h2");
     title.classList.add("title");

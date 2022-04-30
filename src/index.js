@@ -66,7 +66,7 @@ document.querySelector("#content").addEventListener("click", function(e) {
 document.querySelector("#content").addEventListener("click", function(e) {
   if(e.target && e.target.matches("div.new-todo")) {
     const newTodo = todo("New Todo", "Description", "anytime", 5, "self-improvement");
-    noteList.push(newTodo);
+    projectList[document.querySelector("#main").classList[0]].addTodo(newTodo);
     displayController.addNewTodo(newTodo);
   }
 });
