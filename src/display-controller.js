@@ -258,7 +258,7 @@ const displayController = (() => {
     title.addEventListener("click", () => __undoExpandTodo(todo, card), {once: true});
 
     const buttons = document.createElement("div");
-    buttons.classList.add(card.classList[0], "buttons");
+    buttons.classList.add(card.classList[0], "todo", "buttons");
     const editBtn = document.createElement("div");
     editBtn.classList.add(card.classList[0], "editor", "todo-edit");
     const deleteBtn = document.createElement("div");
@@ -354,7 +354,7 @@ const displayController = (() => {
   }
 
   const __undoExpandTodo = (todo, card) => {
-    const buttons = document.querySelector(`[class = '${card.classList[0]} buttons']`);
+    const buttons = document.querySelector(`[class = '${card.classList[0]} todo buttons']`);
     const checklist = document.querySelector(`[class = '${card.classList[0]} checklist']`)
     const description = document.querySelector(`[class = '${card.classList[0]} description']`);
     card.removeChild(buttons);
@@ -367,7 +367,7 @@ const displayController = (() => {
   };
 
   const editTodo = (todo, card) => {
-    const buttons = document.querySelector(`[class = '${card.classList[0]} buttons']`)
+    const buttons = document.querySelector(`[class = '${card.classList[0]} todo buttons']`)
 
     const editTitle = document.createElement("input");
     editTitle.type = "text";
