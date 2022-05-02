@@ -292,6 +292,7 @@ const displayController = (() => {
     editTitle.type = "text";
     editTitle.name = "edit-title";
     editTitle.id = "edit-title";
+
     const editType = document.createElement("select");
     editType.name = "edit-type";
     editType.id = "edit-type";
@@ -301,6 +302,25 @@ const displayController = (() => {
     const optionSelfImprovement = document.createElement("option");
     optionSelfImprovement.textContent = "Self-Improvement";
     editType.appendChild(optionSelfImprovement);
+    const optionLearning = document.createElement("option");
+    optionLearning.textContent = "Learning";
+    editType.appendChild(optionLearning);
+    const optionPersonal = document.createElement("option");
+    optionPersonal.textContent = "Personal";
+    editType.appendChild(optionPersonal);
+    const optionWork = document.createElement("option");
+    optionWork.textContent = "Work";
+    editType.appendChild(optionWork);
+    const optionSchool = document.createElement("option");
+    optionSchool.textContent = "School";
+    editType.appendChild(optionSchool);
+    const optionCleaning = document.createElement("option");
+    optionCleaning.textContent = "Cleaning";
+    editType.appendChild(optionCleaning);
+    const optionOther = document.createElement("option");
+    optionOther.textContent = "Other";
+    editType.appendChild(optionOther);
+
     const editPriority = document.createElement("select");
     editPriority.name = "edit-priority";
     editPriority.id = "edit-priority";
