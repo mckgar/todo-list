@@ -46,6 +46,9 @@ const todo = (title, description, dueDate, priority, type) => {
   const addItem = (title) => {
     list.push({name: title, completed: false});
   };
+  const editItem = (index, newTitle) => {
+    list[index].name = newTitle;
+  }
   const removeItem = (item) => {
     list.splice(list.indexOf(item), 1);
   };
@@ -55,7 +58,7 @@ const todo = (title, description, dueDate, priority, type) => {
 
   return {getTitle, setTitle, getDescription, setDescription, getDueDate, 
     setDueDate, getPriority, setPriority, getType, setType, changeStatus,
-    getStatus, getList, addItem, removeItem, checkItem};
+    getStatus, getList, addItem, removeItem, checkItem, editItem};
 };
 
 const project = (title, description) => {

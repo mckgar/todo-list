@@ -99,6 +99,32 @@ document.querySelector("#content").addEventListener("click", function(e) {
 });
 
 document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("p.add-checklist-item")) {
+    projectList[document.querySelector("#main").classList[0]].getTodoList()[e.target.classList[0]].addItem("New item");
+    displayController.addChecklistItem(projectList[document.querySelector("#main").classList[0]].getTodoList()[e.target.classList[0]], e.target.classList[0]);
+  }
+});
+
+document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("div.checklist-edit")) {
+    const cardIndex = e.target.parentNode.parentNode.parentNode.classList[0];
+    const listIndex = e.target.classList[0];
+    const currentTodo = projectList[document.querySelector("#main").classList[0]].getTodoList()[cardIndex];
+    displayController.editChecklistItem(currentTodo, cardIndex, listIndex);
+  }
+});
+
+document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("div.checklist-delete")) {
+    const cardIndex = e.target.parentNode.parentNode.parentNode.classList[0];
+    const listIndex = e.target.classList[0];
+    displayController.removeChecklistItem(cardIndex, listIndex);
+    const currentTodo = projectList[document.querySelector("#main").classList[0]].getTodoList()[cardIndex];
+    currentTodo.removeItem(currentTodo.getList()[listIndex]);
+  }
+});
+
+document.querySelector("#content").addEventListener("click", function(e) {
   if(e.target && e.target.matches("div.note-edit")) {
     displayController.editNote(noteList[e.target.classList[0]], document.querySelector(`[class = '${e.target.classList[0]} card note']`));
   }
