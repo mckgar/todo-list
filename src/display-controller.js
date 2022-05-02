@@ -87,10 +87,55 @@ const displayController = (() => {
     return card;
   };
 
-  const addNewProject = (project) => {
+  const addNewProject = (project, index) => {
     const projects = document.querySelector(".projects")
-    const newProject = __createProjectCard(project);
+    const newProject = __createProjectCard(project, index);
     projects.appendChild(newProject);
+  };
+
+  const editProject = (project, card) => {
+    const projectInfo = document.querySelector(".project-info");
+
+    const editTitle = document.createElement("input");
+    editTitle.type = "text";
+    editTitle.name = "edit-title";
+    editTitle.id = "edit-title";
+    const editDescription = document.createElement("input");
+    editDescription.type = "text";
+    editDescription.name = "edit-description";
+    editDescription.id = "edit-description";
+    const confirmBtn = document.createElement("div");
+    confirmBtn.classList.add("editor");
+    confirmBtn.id = "project-save";
+
+    const title = document.querySelector("h2.title");
+    editTitle.value = title.textContent;
+    const description = document.querySelector(".project.description");
+    editDescription.value = description.textContent;
+    const editBtn = document.querySelector("#project-edit");
+
+    card.removeChild(title);
+    projectInfo.removeChild(description);
+    card.removeChild(editBtn);
+    card.appendChild(editTitle);
+    projectInfo.appendChild(editDescription);
+    card.appendChild(confirmBtn);
+
+    confirmBtn.addEventListener("click", () =>{
+      project.setTitle(editTitle.value);
+      project.setDescription(editDescription.value);
+
+      title.textContent = project.getTitle();
+      description.textContent = project.getDescription();
+
+      card.removeChild(editTitle);
+      projectInfo.removeChild(editDescription);
+      card.removeChild(confirmBtn);
+      card.appendChild(title);
+      projectInfo.appendChild(description);
+      card.appendChild(editBtn);
+    });
+    
   };
 
   const projectFocus = (project, index) => {
@@ -114,45 +159,56 @@ const displayController = (() => {
     goBack.textContent = "<- Go Back";
     main.appendChild(goBack);
 
+    const editBtn = document.createElement("div");
+    editBtn.classList.add("editor");
+    editBtn.id = "project-edit";
+    main.appendChild(editBtn);
+
+    const deleteBtn = document.createElement("div");
+    deleteBtn.classList.add("editor");
+    deleteBtn.id = "project-delete";
+    main.appendChild(deleteBtn);
+
     const projectInfo = document.createElement("div")
     projectInfo.classList.add("project-info");
     const description = document.createElement("p");
-    description.classList.add("description");
+    description.classList.add("project", "description");
     description.textContent = project.getDescription();
     projectInfo.appendChild(description);
 
 
-    for(let todo of project.getTodoList()) {
-      projectInfo.appendChild(__createTodoCard(todo));
+    for(let i = 0; i < project.getTodoList().length; i++) {
+      projectInfo.appendChild(__createTodoCard(project.getTodoList()[i], i));
     }
 
     const addNewTodoBtn = document.createElement("div");
     addNewTodoBtn.classList.add("add", "new-todo");
     addNewTodoBtn.textContent = "+";
-    projectInfo.appendChild(addNewTodoBtn);
+    main.appendChild(addNewTodoBtn);
 
     main.appendChild(projectInfo);
 
     return main;
   };
 
-  const __createTodoCard = (todo) => {
+  const __createTodoCard = (todo, index) => {
     const card = document.createElement("div");
-    card.classList.add("card", "todo");
+    card.classList.add(index, "card", "todo");
 
     const title = document.createElement("h3");
-    title.classList.add("title");
+    title.classList.add(index, "title");
     title.textContent = todo.getTitle();
     const type = document.createElement("div");
-    type.classList.add("type", todo.getType());
+    type.classList.add(index, "type");
+    type.textContent = todo.getType();
     const priority = document.createElement("p");
-    priority.classList.add("priority");
+    priority.classList.add(index, "priority");
     priority.textContent = todo.getPriority();
     const dueDate = document.createElement("p");
-    dueDate.classList.add("due-date");
+    dueDate.classList.add(index, "due-date");
     dueDate.textContent = todo.getDueDate();
     const status = document.createElement("div");
-    status.classList.add("status", todo.getStatus());
+    status.classList.add(index, "status", todo.getStatus());
 
     card.appendChild(title);
     card.appendChild(type);
@@ -160,33 +216,46 @@ const displayController = (() => {
     card.appendChild(dueDate);
     card.appendChild(status);
 
-    card.addEventListener("click", () => __expandTodo(todo, card), {once: true});
+    title.addEventListener("click", () => __expandTodo(todo, card), {once: true});
 
     return card;
   };
 
-  const addNewTodo = (todo) => {
+  const addNewTodo = (todo, index) => {
     const todos = document.querySelector(".project-info")
-    const newTodo = __createTodoCard(todo);
+    const newTodo = __createTodoCard(todo, index);
     todos.appendChild(newTodo);
   };
 
   const __expandTodo = (todo, card) => {
+    const title = document.querySelector(`[class = '${card.classList[0]} title']`);
+
     const description = document.createElement("p");
-    description.classList.add("description");
+    description.classList.add(card.classList[0], "description");
     description.textContent = todo.getDescription();
 
     const checklist = document.createElement("ul");
-    checklist.classList.add("checklist");
+    checklist.classList.add(card.classList[0], "checklist");
 
-    for(let i = 0; i < todo.getList().length; i++) {
-      checklist.appendChild(__createListItem(todo.getList()[i]));
+    const list = todo.getList();
+    for(let i = 0; i < list.length; i++) {
+      checklist.appendChild(__createListItem(list[i]));
     }
 
     card.appendChild(description);
     card.appendChild(checklist);
 
-    card.addEventListener("click", () => __undoExpandTodo(todo, card), {once: true});
+    title.addEventListener("click", () => __undoExpandTodo(todo, card), {once: true});
+
+    const buttons = document.createElement("div");
+    buttons.classList.add(card.classList[0], "buttons");
+    const editBtn = document.createElement("div");
+    editBtn.classList.add(card.classList[0], "editor", "todo-edit");
+    const deleteBtn = document.createElement("div");
+    deleteBtn.classList.add(card.classList[0], "editor", "todo-delete");
+    buttons.appendChild(editBtn);
+    buttons.appendChild(deleteBtn);
+    card.appendChild(buttons);
   };
 
   const __createListItem = (item) => {
@@ -204,10 +273,132 @@ const displayController = (() => {
   };
 
   const __undoExpandTodo = (todo, card) => {
-    card.removeChild(card.lastElementChild);
-    card.removeChild(card.lastElementChild);
+    const buttons = document.querySelector(`[class = '${card.classList[0]} buttons']`);
+    const checklist = document.querySelector(`[class = '${card.classList[0]} checklist']`)
+    const description = document.querySelector(`[class = '${card.classList[0]} description']`);
+    card.removeChild(buttons);
+    card.removeChild(checklist);
+    card.removeChild(description);
 
-    card.addEventListener("click", () => __expandTodo(todo, card), {once: true});
+    const title = document.querySelector(`[class = '${card.classList[0]} title']`);
+
+    title.addEventListener("click", () => __expandTodo(todo, card), {once: true});
+  };
+
+  const editTodo = (todo, card) => {
+    const buttons = document.querySelector(`[class = '${card.classList[0]} buttons']`)
+
+    const editTitle = document.createElement("input");
+    editTitle.type = "text";
+    editTitle.name = "edit-title";
+    editTitle.id = "edit-title";
+    const editType = document.createElement("select");
+    editType.name = "edit-type";
+    editType.id = "edit-type";
+    const optionExercise = document.createElement("option");
+    optionExercise.textContent = "Exercise";
+    editType.appendChild(optionExercise);
+    const optionSelfImprovement = document.createElement("option");
+    optionSelfImprovement.textContent = "Self-Improvement";
+    editType.appendChild(optionSelfImprovement);
+    const editPriority = document.createElement("select");
+    editPriority.name = "edit-priority";
+    editPriority.id = "edit-priority";
+    const priority1 = document.createElement("option");
+    priority1.textContent = "1";
+    const priority2 = document.createElement("option");
+    priority2.textContent = "2";
+    const priority3 = document.createElement("option");
+    priority3.textContent = "3";
+    const priority4 = document.createElement("option");
+    priority4.textContent = "4";
+    const priority5 = document.createElement("option");
+    priority5.textContent = "5";
+    editPriority.appendChild(priority1);
+    editPriority.appendChild(priority2);
+    editPriority.appendChild(priority3);
+    editPriority.appendChild(priority4);
+    editPriority.appendChild(priority5);
+    const editDueDate = document.createElement("input");
+    editDueDate.type = "datetime-local";
+    editDueDate.name = "edit-due-date";
+    editDueDate.id = "edit-due-date";
+    editDueDate.min = "2022-05-01";
+    const editDescription = document.createElement("textarea");
+    const confirmBtn = document.createElement("div");
+    confirmBtn.classList.add("editor");
+    confirmBtn.id = "todo-save";
+
+    const title = document.querySelector(`[class = '${card.classList[0]} title']`);
+    editTitle.value = title.textContent;
+    const type = document.querySelector(`[class = '${card.classList[0]} type']`);
+    editType.value = type.textContent;
+    const priority = document.querySelector(`[class = '${card.classList[0]} priority']`);
+    editPriority.value = priority.textContent;
+    const dueDate = document.querySelector(`[class = '${card.classList[0]} due-date']`);
+    editDueDate.value = dueDate.textContent;
+    const description = document.querySelector(`[class = '${card.classList[0]} description']`);
+    editDescription.value = description.textContent;
+    const editBtn = document.querySelector(`[class = '${card.classList[0]} editor todo-edit`);
+
+    card.removeChild(title);
+    card.removeChild(type);
+    card.removeChild(priority);
+    card.removeChild(dueDate);
+    card.removeChild(description);
+    buttons.removeChild(editBtn);
+    card.appendChild(editTitle);
+    card.appendChild(editType);
+    card.appendChild(editPriority);
+    card.appendChild(editDueDate);
+    card.appendChild(editDescription);
+    buttons.appendChild(confirmBtn);
+
+    confirmBtn.addEventListener("click", () =>{
+      todo.setTitle(editTitle.value);
+      todo.setType(editType.value);
+      todo.setPriority(editPriority.value);
+      todo.setDueDate(editDueDate.value);
+      todo.setDescription(editDescription.value);
+
+      title.textContent = todo.getTitle();
+      type.textContent = todo.getType();
+      priority.textContent = todo.getPriority();
+      dueDate.textContent = todo.getDueDate();
+      description.textContent = todo.getDescription();
+
+      card.removeChild(editTitle);
+      card.removeChild(editType);
+      card.removeChild(editPriority);
+      card.removeChild(editDueDate);
+      card.removeChild(editDescription);
+      buttons.removeChild(confirmBtn);
+      card.appendChild(title);
+      card.appendChild(type);
+      card.appendChild(priority);
+      card.appendChild(dueDate);
+      card.appendChild(description);
+      buttons.appendChild(editBtn);
+    });
+  };
+
+  const removeTodo = (index) => {
+    const projectInfo = document.querySelector(".project-info");
+    const badChild = document.querySelector(`[class = '${index} card todo']`);
+    projectInfo.removeChild(badChild);
+    const childrenLength = projectInfo.childNodes.length;
+    for(let i = parseInt(index) + 1; i < childrenLength; i++) {
+      const currentChild = document.querySelector(`[class = '${i} card todo']`);
+      currentChild.classList.replace(currentChild.classList[0], currentChild.classList[0] - 1);
+      for(let j = 0; j < currentChild.childNodes.length; j++) {
+        currentChild.childNodes[j].classList.replace(currentChild.childNodes[j].classList[0], currentChild.childNodes[j].classList[0] - 1);
+      }
+      if(currentChild.childNodes.length > 5) {
+        const currentButtons = document.querySelector(`[class = '${i - 1} buttons']`);
+        currentButtons.childNodes[0].classList.replace(currentButtons.childNodes[0].classList[0], currentButtons.childNodes[0].classList[0] - 1);
+        currentButtons.childNodes[1].classList.replace(currentButtons.childNodes[1].classList[0], currentButtons.childNodes[1].classList[0] - 1);
+      }
+    }
   };
 
   const notesOverview = (notesList) => {
@@ -229,7 +420,7 @@ const displayController = (() => {
     notes.classList.add("notes");
 
     for(let i = 0; i < notesList.length; i++) {
-      notes.appendChild(__createNoteCard(notesList[i]));
+      notes.appendChild(__createNoteCard(notesList[i], i));
     }
     main.appendChild(notes);
 
@@ -241,41 +432,121 @@ const displayController = (() => {
     return main;
   };
 
-  const __createNoteCard = (note) => {
+  const __createNoteCard = (note, index) => {
     const card = document.createElement("div");
-    card.classList.add("card", "note");
+    card.classList.add(index, "card", "note");
 
     const title = document.createElement("h3");
-    title.classList.add("title");
+    title.classList.add(index, "title");
     title.textContent = note.getTitle();
 
-    card.appendChild(title);
+    title.addEventListener("click", () => __expandNote(note, card), {once: true});
 
-    card.addEventListener("click", () => __expandNote(note, card), {once: true});
+    card.appendChild(title);
 
     return card;
   };
 
-  const addNewNote = (note) => {
+  const addNewNote = (note, index) => {
     const notes = document.querySelector(".notes")
-    const newNote = __createNoteCard(note);
+    const newNote = __createNoteCard(note, index);
     notes.appendChild(newNote);
   };
 
   const __expandNote = (note, card) => {
+    const title = document.querySelector(`[class = '${card.classList[0]} title']`);
+
     const description = document.createElement("p");
-    description.classList.add("description");
+    description.classList.add(card.classList[0], "description");
     description.textContent = note.getDescription();
 
     card.appendChild(description);
 
-    card.addEventListener("click", () => __undoExpandNote(note, card), {once: true});
+    title.addEventListener("click", () => __undoExpandNote(note, card), {once: true});
+
+    const buttons = document.createElement("div");
+    buttons.classList.add(card.classList[0], "buttons");
+    const editBtn = document.createElement("div");
+    editBtn.classList.add(card.classList[0], "editor", "note-edit");
+    const deleteBtn = document.createElement("div");
+    deleteBtn.classList.add(card.classList[0], "editor", "note-delete");
+    buttons.appendChild(editBtn);
+    buttons.appendChild(deleteBtn);
+    card.appendChild(buttons);
   };
 
   const __undoExpandNote = (note, card) => {
-    card.removeChild(card.lastElementChild);
+    const buttons = document.querySelector(`[class = '${card.classList[0]} buttons']`);
+    const description = document.querySelector(`[class = '${card.classList[0]} description']`);
+    card.removeChild(buttons);
+    card.removeChild(description);
 
-    card.addEventListener("click", () => __expandNote(note, card), {once: true});
+    const title = document.querySelector(`[class = '${card.classList[0]} title']`);
+
+    title.addEventListener("click", () => __expandNote(note, card), {once: true});
+  };
+
+  const editNote = (note, card) => {
+    const buttons = document.querySelector(`[class = '${card.classList[0]} buttons']`)
+
+    const editTitle = document.createElement("input");
+    editTitle.type = "text";
+    editTitle.name = "edit-title";
+    editTitle.id = "edit-title";
+    const editDescription = document.createElement("input");
+    editDescription.type = "text";
+    editDescription.name = "edit-description";
+    editDescription.id = "edit-description";
+    const confirmBtn = document.createElement("div");
+    confirmBtn.classList.add("editor");
+    confirmBtn.id = "note-save";
+
+    const title = document.querySelector(`[class = '${card.classList[0]} title']`);
+    editTitle.value = title.textContent;
+    const description = document.querySelector(`[class = '${card.classList[0]} description']`);
+    editDescription.value = description.textContent;
+    const editBtn = document.querySelector(`[class = '${card.classList[0]} editor note-edit`);
+
+    card.removeChild(title);
+    card.removeChild(description);
+    buttons.removeChild(editBtn);
+    card.appendChild(editTitle);
+    card.appendChild(editDescription);
+    buttons.appendChild(confirmBtn);
+
+    confirmBtn.addEventListener("click", () =>{
+      note.setTitle(editTitle.value);
+      note.setDescription(editDescription.value);
+
+      title.textContent = note.getTitle();
+      description.textContent = note.getDescription();
+
+      card.removeChild(editTitle);
+      card.removeChild(editDescription);
+      buttons.removeChild(confirmBtn);
+      card.appendChild(title);
+      card.appendChild(description);
+      buttons.appendChild(editBtn);
+    });
+  };
+
+  const removeNote = (index) => {
+    const notes = document.querySelector(".notes");
+    const badChild = document.querySelector(`[class = '${index} card note']`);
+    notes.removeChild(badChild);
+    const childrenLength = notes.childNodes.length;
+    for(let i = parseInt(index) + 1; i < childrenLength + 1; i++) {
+      const currentChild = document.querySelector(`[class = '${i} card note']`);
+      currentChild.classList.replace(currentChild.classList[0], currentChild.classList[0] - 1);
+      for(let j = 0; j < currentChild.childNodes.length; j++) {
+        currentChild.childNodes[j].classList.replace(currentChild.childNodes[j].classList[0], currentChild.childNodes[j].classList[0] - 1);
+      }
+      if(currentChild.childNodes.length > 1) {
+        const currentButtons = document.querySelector(`[class = '${i - 1} buttons']`);
+        currentButtons.childNodes[0].classList.replace(currentButtons.childNodes[0].classList[0], currentButtons.childNodes[0].classList[0] - 1);
+        currentButtons.childNodes[1].classList.replace(currentButtons.childNodes[1].classList[0], currentButtons.childNodes[1].classList[0] - 1);
+      }
+    }
   };
 
   const settingsOverview = () => {
@@ -303,7 +574,7 @@ const displayController = (() => {
   };
 
   return {initialSetup, projectsOverview, projectFocus, notesOverview, settingsOverview,
-    addNewProject, addNewNote, addNewTodo};
+    addNewProject, addNewNote, addNewTodo, editProject, editTodo, removeTodo, editNote, removeNote};
 })();
 
 export {displayController};

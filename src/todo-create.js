@@ -80,8 +80,8 @@ const project = (title, description) => {
   const addTodo = (newTodo) => {
     todoList.push(newTodo);
   };
-  const removeTodo = (badTodo) => {
-    todoList.splice(todoList.indexOf(badTodo), 1);
+  const removeTodo = (index) => {
+    todoList.splice(index, 1);
   };
 
   return {getTitle, setTitle, getDescription, setDescription, getTodoList, 

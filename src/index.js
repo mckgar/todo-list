@@ -1,5 +1,5 @@
 import "./style.css";
-import {todo, project, note, checklist} from "./todo-create.js";
+import {todo, project, note} from "./todo-create.js";
 import {displayController} from "./display-controller";
 
 let projectList = [];
@@ -51,7 +51,7 @@ document.querySelector("#content").addEventListener("click", function(e) {
   if(e.target && e.target.matches("div.new-project")) {
     const newProject = project("New Project", "Description");
     projectList.push(newProject);
-    displayController.addNewProject(newProject);
+    displayController.addNewProject(newProject, projectList.length - 1);
   }
 });
 
@@ -59,14 +59,54 @@ document.querySelector("#content").addEventListener("click", function(e) {
   if(e.target && e.target.matches("div.new-note")) {
     const newNote = project("New Note", "Description");
     noteList.push(newNote);
-    displayController.addNewNote(newNote);
+    displayController.addNewNote(newNote, noteList.length - 1);
   }
 });
 
 document.querySelector("#content").addEventListener("click", function(e) {
   if(e.target && e.target.matches("div.new-todo")) {
-    const newTodo = todo("New Todo", "Description", "anytime", 5, "self-improvement");
-    projectList[document.querySelector("#main").classList[0]].addTodo(newTodo);
-    displayController.addNewTodo(newTodo);
+    const newTodo = todo("New Todo", "Description", "", 5, "Self-Improvement");
+    const currentProject = projectList[document.querySelector("#main").classList[0]];
+    currentProject.addTodo(newTodo);
+    displayController.addNewTodo(newTodo, currentProject.getTodoList().length - 1);
+  }
+});
+
+document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("div#project-edit")) {
+    displayController.editProject(projectList[document.querySelector("#main").classList[0]], document.querySelector("#main"));
+  }
+});
+
+document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("div#project-delete")) {
+    projectList.splice(document.querySelector("#main").classList[0], 1);
+    displayController.projectsOverview(projectList);
+  }
+});
+
+document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("div.todo-edit")) {
+    displayController.editTodo(projectList[document.querySelector("#main").classList[0]].getTodoList()[e.target.classList[0]], document.querySelector(`[class = '${e.target.classList[0]} card todo']`));
+  }
+});
+
+document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("div.todo-delete")) {
+    displayController.removeTodo(e.target.classList[0]);
+    projectList[document.querySelector("#main").classList[0]].removeTodo(e.target.classList[0]);
+  }
+});
+
+document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("div.note-edit")) {
+    displayController.editNote(noteList[e.target.classList[0]], document.querySelector(`[class = '${e.target.classList[0]} card note']`));
+  }
+});
+
+document.querySelector("#content").addEventListener("click", function(e) {
+  if(e.target && e.target.matches("div.note-delete")) {
+    displayController.removeNote(e.target.classList[0]);
+    noteList.splice(document.querySelector("#main").classList[0], 1);
   }
 });
