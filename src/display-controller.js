@@ -210,6 +210,11 @@ const displayController = (() => {
     const status = document.createElement("div");
     status.classList.add(index, "status", todo.getStatus());
 
+    status.addEventListener("click", () => {
+      todo.changeStatus();
+      status.classList.replace(status.classList[2], todo.getStatus());
+    });
+
     card.appendChild(title);
     card.appendChild(type);
     card.appendChild(priority);

@@ -109,6 +109,12 @@
   content: "e";
 }
 
+#project-save::before,
+#todo-save::before,
+#note-save::before {
+  content: "s";
+}
+
 #project-delete::before,
 .todo-delete::before,
 .note-delete::before {
