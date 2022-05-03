@@ -1,34 +1,29 @@
-const todo = (title, description, dueDate, priority, type) => {
+const todo = (initTitle, initDescription, initDueDate, initPriority, initType) => {
+  let title = initTitle;
+  let description = initDescription;
+  let dueDate = initDueDate;
+  let priority = initPriority;
+  let type = initType;
   let status = false;
-  let list = [];
+  const list = [];
 
-  const getTitle = () => {
-    return title;
-  };
+  const getTitle = () => title;
   const setTitle = (newTitle) => {
     title = newTitle;
   };
-  const getDescription = () => {
-    return description;
-  };
+  const getDescription = () => description;
   const setDescription = (newDescription) => {
     description = newDescription;
   };
-  const getDueDate = () => {
-    return dueDate;
-  };
+  const getDueDate = () => dueDate;
   const setDueDate = (newDueDate) => {
     dueDate = newDueDate;
   };
-  const getPriority = () => {
-    return priority;
-  };
+  const getPriority = () => priority;
   const setPriority = (newPriority) => {
     priority = newPriority;
   };
-  const getType = () => {
-    return type;
-  };
+  const getType = () => type;
   const setType = (newType) => {
     type = newType;
   };
@@ -36,49 +31,57 @@ const todo = (title, description, dueDate, priority, type) => {
   const changeStatus = () => {
     status = !status;
   };
-  const getStatus = () => {
-    return status;
-  };
+  const getStatus = () => status;
 
-  const getList = () => {
-    return list;
-  };
-  const addItem = (title) => {
-    list.push({name: title, completed: false});
+  const getList = () => list;
+  const addItem = (itemTitle) => {
+    list.push({ name: itemTitle, completed: false });
   };
   const editItem = (index, newTitle) => {
     list[index].name = newTitle;
-  }
-  const removeItem = (item) => {
-    list.splice(list.indexOf(item), 1);
   };
-  const checkItem = (item) => {
-    item.completed = !(item.completed);
+  const removeItem = (index) => {
+    list.splice(list[index], 1);
+  };
+  const checkItem = (index) => {
+    list[index].completed = !(list[index].completed);
   };
 
-  return {getTitle, setTitle, getDescription, setDescription, getDueDate, 
-    setDueDate, getPriority, setPriority, getType, setType, changeStatus,
-    getStatus, getList, addItem, removeItem, checkItem, editItem};
+  return {
+    getTitle,
+    setTitle,
+    getDescription,
+    setDescription,
+    getDueDate,
+    setDueDate,
+    getPriority,
+    setPriority,
+    getType,
+    setType,
+    changeStatus,
+    getStatus,
+    getList,
+    addItem,
+    removeItem,
+    checkItem,
+    editItem,
+  };
 };
 
-const project = (title, description) => {
-  let todoList = [];
+const project = (initTitle, initDescription) => {
+  let title = initTitle;
+  let description = initDescription;
+  const todoList = [];
 
-  const getTitle = () => {
-    return title;
-  };
+  const getTitle = () => title;
   const setTitle = (newTitle) => {
     title = newTitle;
-  }
-  const getDescription = () => {
-    return description;
   };
+  const getDescription = () => description;
   const setDescription = (newDescription) => {
     description = newDescription;
   };
-  const getTodoList = () => {
-    return todoList;
-  };
+  const getTodoList = () => todoList;
 
   const addTodo = (newTodo) => {
     todoList.push(newTodo);
@@ -87,25 +90,32 @@ const project = (title, description) => {
     todoList.splice(index, 1);
   };
 
-  return {getTitle, setTitle, getDescription, setDescription, getTodoList, 
-    addTodo, removeTodo};
-}
-
-const note = (title, description) => {
-  const getTitle = () => {
-    return title;
+  return {
+    getTitle,
+    setTitle,
+    getDescription,
+    setDescription,
+    getTodoList,
+    addTodo,
+    removeTodo,
   };
+};
+
+const note = (initTitle, initDescription) => {
+  let title = initTitle;
+  let description = initDescription;
+  const getTitle = () => title;
   const setTitle = (newTitle) => {
     title = newTitle;
   };
-  const getDescription = () => {
-    return description;
-  };
+  const getDescription = () => description;
   const setDescription = (newDescription) => {
     description = newDescription;
   };
 
-  return {getTitle, setTitle, getDescription, setDescription};
-}
+  return {
+    getTitle, setTitle, getDescription, setDescription,
+  };
+};
 
-export {todo, project, note};
+export { todo, project, note };
