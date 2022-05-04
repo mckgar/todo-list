@@ -1,3 +1,5 @@
+import { format, parseISO } from 'date-fns';
+
 const displayController = (() => {
   const deleteMain = () => {
     const content = document.querySelector('#content');
@@ -127,7 +129,7 @@ const displayController = (() => {
     priority.textContent = todo.getPriority();
     const dueDate = document.createElement('p');
     dueDate.classList.add(index, 'due-date');
-    dueDate.textContent = todo.getDueDate();
+    dueDate.textContent = format(parseISO(todo.getDueDate()), 'MM/dd/yyyy');
     const status = document.createElement('div');
     status.classList.add(index, 'status', todo.getStatus());
 
@@ -441,10 +443,9 @@ const displayController = (() => {
     editPriority.appendChild(priority4);
     editPriority.appendChild(priority5);
     const editDueDate = document.createElement('input');
-    editDueDate.type = 'datetime-local';
+    editDueDate.type = 'date';
     editDueDate.name = 'edit-due-date';
     editDueDate.id = 'edit-due-date';
-    editDueDate.min = '2022-05-01';
     const editDescription = document.createElement('textarea');
     const confirmBtn = document.createElement('div');
     confirmBtn.classList.add('editor');
@@ -457,7 +458,7 @@ const displayController = (() => {
     const priority = document.querySelector(`[class = '${card.classList[0]} priority']`);
     editPriority.value = priority.textContent;
     const dueDate = document.querySelector(`[class = '${card.classList[0]} due-date']`);
-    editDueDate.value = dueDate.textContent;
+    editDueDate.value = todo.getDueDate();
     const description = document.querySelector(`[class = '${card.classList[0]} description']`);
     editDescription.value = description.textContent;
     const editBtn = document.querySelector(`[class = '${card.classList[0]} editor todo-edit`);
@@ -485,7 +486,7 @@ const displayController = (() => {
       title.textContent = todo.getTitle();
       type.textContent = todo.getType();
       priority.textContent = todo.getPriority();
-      dueDate.textContent = todo.getDueDate();
+      dueDate.textContent = format(parseISO(todo.getDueDate()), 'MM/dd/yyyy');
       description.textContent = todo.getDescription();
 
       card.removeChild(editTitle);
