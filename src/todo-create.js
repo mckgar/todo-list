@@ -1,11 +1,11 @@
-const todo = (initTitle, initDescription, initDueDate, initPriority, initType) => {
+const todo = (initTitle, initDescription, initDueDate, initPriority, initType, initChecklist = []) => {
   let title = initTitle;
   let description = initDescription;
   let dueDate = initDueDate;
   let priority = initPriority;
   let type = initType;
+  const list = initChecklist;
   let status = false;
-  const list = [];
 
   const getTitle = () => title;
   const setTitle = (newTitle) => {
@@ -47,6 +47,19 @@ const todo = (initTitle, initDescription, initDueDate, initPriority, initType) =
     list[index].completed = !(list[index].completed);
   };
 
+  const listAsString = () => {
+    let string = '[';
+    for (let i = 0; i < list.length; i += 1) {
+      string += `{"name":"${list[i].name}","completed":"${list[i].completed}"}`;
+      if (i < list.length - 1) {
+        string += ',';
+      }
+    }
+    string += ']';
+    return string;
+  };
+
+  const toString = () => `{"title":"${title}","description":"${description}","dueDate":"${dueDate}","priority":"${priority}","type":"${type}","list":${listAsString()}}`;
   return {
     getTitle,
     setTitle,
@@ -65,13 +78,14 @@ const todo = (initTitle, initDescription, initDueDate, initPriority, initType) =
     removeItem,
     checkItem,
     editItem,
+    toString,
   };
 };
 
-const project = (initTitle, initDescription) => {
+const project = (initTitle, initDescription, initTodoList = []) => {
   let title = initTitle;
   let description = initDescription;
-  const todoList = [];
+  const todoList = initTodoList;
 
   const getTitle = () => title;
   const setTitle = (newTitle) => {
@@ -90,6 +104,20 @@ const project = (initTitle, initDescription) => {
     todoList.splice(index, 1);
   };
 
+  const todoListAsString = () => {
+    let string = '[';
+    for (let i = 0; i < todoList.length; i += 1) {
+      string += todoList[i].toString();
+      if (i < todoList.length - 1) {
+        string += ',';
+      }
+    }
+    string += ']';
+    return string;
+  };
+
+  const toString = () => `{"title":"${title}","description":"${description}","todoList":${todoListAsString()}}`;
+
   return {
     getTitle,
     setTitle,
@@ -98,6 +126,7 @@ const project = (initTitle, initDescription) => {
     getTodoList,
     addTodo,
     removeTodo,
+    toString,
   };
 };
 
@@ -112,9 +141,10 @@ const note = (initTitle, initDescription) => {
   const setDescription = (newDescription) => {
     description = newDescription;
   };
+  const toString = () => `{"title":"${title}","description":"${description}"}`;
 
   return {
-    getTitle, setTitle, getDescription, setDescription,
+    getTitle, setTitle, getDescription, setDescription, toString,
   };
 };
 
