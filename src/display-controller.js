@@ -53,9 +53,11 @@ const displayController = (() => {
     const buttons = document.createElement('div');
     buttons.classList.add(index, 'buttons');
     const editBtn = document.createElement('div');
-    editBtn.classList.add(index, 'editor', 'checklist-edit');
+    editBtn.classList.add(index, 'editor', 'checklist-edit', 'material-symbols-outlined');
+    editBtn.textContent = 'edit_note';
     const deleteBtn = document.createElement('div');
-    deleteBtn.classList.add(index, 'editor', 'checklist-delete');
+    deleteBtn.classList.add(index, -'editor', 'checklist-delete', 'material-symbols-outlined');
+    deleteBtn.textContent = 'delete_forever';
     buttons.appendChild(editBtn);
     buttons.appendChild(deleteBtn);
 
@@ -93,9 +95,11 @@ const displayController = (() => {
     const buttons = document.createElement('div');
     buttons.classList.add(card.classList[0], 'todo', 'buttons');
     const editBtn = document.createElement('div');
-    editBtn.classList.add(card.classList[0], 'editor', 'todo-edit');
+    editBtn.classList.add(card.classList[0], 'editor', 'todo-edit', 'material-symbols-outlined');
+    editBtn.textContent = 'edit_note';
     const deleteBtn = document.createElement('div');
-    deleteBtn.classList.add(card.classList[0], 'editor', 'todo-delete');
+    deleteBtn.classList.add(card.classList[0], 'editor', 'todo-delete', 'material-symbols-outlined');
+    deleteBtn.textContent = 'delete_forever';
     buttons.appendChild(editBtn);
     buttons.appendChild(deleteBtn);
     card.appendChild(buttons);
@@ -131,7 +135,8 @@ const displayController = (() => {
     dueDate.classList.add(index, 'due-date');
     dueDate.textContent = format(parseISO(todo.getDueDate()), 'MM/dd/yyyy');
     const status = document.createElement('div');
-    status.classList.add(index, 'status', todo.getStatus());
+    status.classList.add(index, 'status', todo.getStatus(), 'material-symbols-outlined');
+    status.textContent = 'check_circle';
 
     status.addEventListener('click', () => {
       todo.changeStatus();
@@ -165,12 +170,14 @@ const displayController = (() => {
     main.appendChild(goBack);
 
     const editBtn = document.createElement('div');
-    editBtn.classList.add('editor');
+    editBtn.classList.add('editor', 'material-symbols-outlined');
     editBtn.id = 'project-edit';
+    editBtn.textContent = 'edit_note';
     main.appendChild(editBtn);
 
     const deleteBtn = document.createElement('div');
-    deleteBtn.classList.add('editor');
+    deleteBtn.classList.add('editor', 'material-symbols-outlined');
+    deleteBtn.textContent = 'delete_forever';
     deleteBtn.id = 'project-delete';
     main.appendChild(deleteBtn);
 
@@ -252,6 +259,12 @@ const displayController = (() => {
   };
 
   const initialSetup = (projectList) => {
+    const head = document.querySelector('head');
+    const iconLink = document.createElement('link');
+    iconLink.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200';
+    iconLink.rel = 'stylesheet';
+    head.appendChild(iconLink);
+
     const body = document.querySelector('body');
     const content = document.createElement('div');
     content.id = 'content';
@@ -280,7 +293,8 @@ const displayController = (() => {
     editDescription.name = 'edit-description';
     editDescription.id = 'edit-description';
     const confirmBtn = document.createElement('div');
-    confirmBtn.classList.add('editor');
+    confirmBtn.classList.add('editor', 'material-symbols-outlined');
+    confirmBtn.textContent = 'save';
     confirmBtn.id = 'project-save';
 
     const title = document.querySelector('h2.title');
@@ -338,7 +352,8 @@ const displayController = (() => {
     editItemName.name = 'edit-item-name';
     editItemName.id = 'edit-item-name';
     const confirmBtn = document.createElement('div');
-    confirmBtn.classList.add('editor');
+    confirmBtn.classList.add('editor', 'material-symbols-outlined');
+    confirmBtn.textContent = 'save';
     confirmBtn.id = 'checklist-save';
 
     editItemName.value = itemName.textContent;
@@ -450,7 +465,8 @@ const displayController = (() => {
     editDueDate.id = 'edit-due-date';
     const editDescription = document.createElement('textarea');
     const confirmBtn = document.createElement('div');
-    confirmBtn.classList.add('editor');
+    confirmBtn.classList.add('editor', 'material-symbols-outlined');
+    confirmBtn.textContent = 'save';
     confirmBtn.id = 'todo-save';
 
     const title = document.querySelector(`[class = '${card.classList[0]} title']`);
@@ -463,7 +479,7 @@ const displayController = (() => {
     editDueDate.value = todo.getDueDate();
     const description = document.querySelector(`[class = '${card.classList[0]} description']`);
     editDescription.value = description.textContent;
-    const editBtn = document.querySelector(`[class = '${card.classList[0]} editor todo-edit`);
+    const editBtn = document.querySelector(`[class = '${card.classList[0]} editor todo-edit material-symbols-outlined']`);
 
     card.removeChild(title);
     card.removeChild(type);
@@ -552,9 +568,11 @@ const displayController = (() => {
     const buttons = document.createElement('div');
     buttons.classList.add(card.classList[0], 'buttons');
     const editBtn = document.createElement('div');
-    editBtn.classList.add(card.classList[0], 'editor', 'note-edit');
+    editBtn.classList.add(card.classList[0], 'editor', 'note-edit', 'material-symbols-outlined');
+    editBtn.textContent = 'edit_note';
     const deleteBtn = document.createElement('div');
-    deleteBtn.classList.add(card.classList[0], 'editor', 'note-delete');
+    deleteBtn.classList.add(card.classList[0], 'editor', 'note-delete', 'material-symbols-outlined');
+    deleteBtn.textContent = 'delete_forever';
     buttons.appendChild(editBtn);
     buttons.appendChild(deleteBtn);
     card.appendChild(buttons);
@@ -636,14 +654,15 @@ const displayController = (() => {
     editDescription.name = 'edit-description';
     editDescription.id = 'edit-description';
     const confirmBtn = document.createElement('div');
-    confirmBtn.classList.add('editor');
+    confirmBtn.classList.add('editor', 'material-symbols-outlined');
+    confirmBtn.textContent = 'save';
     confirmBtn.id = 'note-save';
 
     const title = document.querySelector(`[class = '${card.classList[0]} title']`);
     editTitle.value = title.textContent;
     const description = document.querySelector(`[class = '${card.classList[0]} description']`);
     editDescription.value = description.textContent;
-    const editBtn = document.querySelector(`[class = '${card.classList[0]} editor note-edit`);
+    const editBtn = document.querySelector(`[class = '${card.classList[0]} editor note-edit material-symbols-outlined']`);
 
     card.removeChild(title);
     card.removeChild(description);
