@@ -188,7 +188,7 @@ const displayController = (() => {
     const addNewTodoBtn = document.createElement('div');
     addNewTodoBtn.classList.add('add', 'new-todo');
     addNewTodoBtn.textContent = '+';
-    main.appendChild(addNewTodoBtn);
+    projectInfo.appendChild(addNewTodoBtn);
 
     main.appendChild(projectInfo);
 
@@ -315,7 +315,8 @@ const displayController = (() => {
   const addNewTodo = (todo, index) => {
     const todos = document.querySelector('.project-info');
     const newTodo = createTodoCard(todo, index);
-    todos.appendChild(newTodo);
+    const addNewTodoBtn = document.querySelector('.add.new-todo');
+    todos.insertBefore(newTodo, addNewTodoBtn);
   };
 
   const addChecklistItem = (todo, index) => {
@@ -510,7 +511,7 @@ const displayController = (() => {
     const badChild = document.querySelector(`[class = '${index} card todo']`);
     projectInfo.removeChild(badChild);
     const childrenLength = projectInfo.childNodes.length;
-    for (let i = parseInt(index, 10) + 1; i < childrenLength; i += 1) {
+    for (let i = parseInt(index, 10) + 1; i < childrenLength - 1; i += 1) {
       const currentChild = document.querySelector(`[class = '${i} card todo']`);
       currentChild.classList.replace(
         currentChild.classList[0],
