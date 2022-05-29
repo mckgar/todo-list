@@ -240,7 +240,7 @@ const displayController = (() => {
     const addNewProjectBtn = document.createElement('div');
     addNewProjectBtn.classList.add('add', 'new-project');
     addNewProjectBtn.textContent = '+';
-    main.appendChild(addNewProjectBtn);
+    projects.appendChild(addNewProjectBtn);
 
     return main;
   };
@@ -264,7 +264,8 @@ const displayController = (() => {
   const addNewProject = (project, index) => {
     const projects = document.querySelector('.projects');
     const newProject = createProjectCard(project, index);
-    projects.appendChild(newProject);
+    const addNewProjectBtn = document.querySelector('.add.new-project');
+    projects.insertBefore(newProject, addNewProjectBtn);
   };
 
   const editProject = (project, card) => {

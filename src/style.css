@@ -85,9 +85,8 @@
 }
 
 .add {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
+  align-self: center;
+  justify-self: center;
 }
 
 #project-edit,
