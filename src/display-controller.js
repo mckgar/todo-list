@@ -606,7 +606,7 @@ const displayController = (() => {
     const addNewNoteBtn = document.createElement('div');
     addNewNoteBtn.classList.add('add', 'new-note');
     addNewNoteBtn.textContent = '+';
-    main.appendChild(addNewNoteBtn);
+    notes.appendChild(addNewNoteBtn);
 
     return main;
   };
@@ -620,7 +620,8 @@ const displayController = (() => {
   const addNewNote = (note, index) => {
     const notes = document.querySelector('.notes');
     const newNote = createNoteCard(note, index);
-    notes.appendChild(newNote);
+    const addNewNoteBtn = document.querySelector('.add.new-note');
+    notes.insertBefore(newNote, addNewNoteBtn);
   };
 
   const editNote = (note, card) => {
@@ -672,7 +673,7 @@ const displayController = (() => {
     const badChild = document.querySelector(`[class = '${index} card note']`);
     notes.removeChild(badChild);
     const childrenLength = notes.childNodes.length;
-    for (let i = parseInt(index, 10) + 1; i < childrenLength + 1; i += 1) {
+    for (let i = parseInt(index, 10) + 1; i < childrenLength; i += 1) {
       const currentChild = document.querySelector(`[class = '${i} card note']`);
       currentChild.classList.replace(currentChild.classList[0], currentChild.classList[0] - 1);
       for (let j = 0; j < currentChild.childNodes.length; j += 1) {
