@@ -112,6 +112,14 @@ document.querySelector('#content').addEventListener('click', (e) => {
 });
 
 document.querySelector('#content').addEventListener('click', (e) => {
+  if (e.target && e.target.matches('div.project-delete')) {
+    projectList.splice(e.target.classList[0], 1);
+    displayController.projectsOverview(projectList);
+    populateStorage();
+  }
+});
+
+document.querySelector('#content').addEventListener('click', (e) => {
   if (e.target && e.target.matches('div#project-edit')) {
     displayController.editProject(
       projectList[document.querySelector('#main').classList[0]],

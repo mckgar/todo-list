@@ -210,7 +210,7 @@ const displayController = (() => {
 
   const createProjectCard = (project, index) => {
     const card = document.createElement('div');
-    card.classList.add('card', 'project');
+    card.classList.add(index, 'card', 'project');
 
     const title = document.createElement('h3');
     title.classList.add('title');
@@ -219,8 +219,13 @@ const displayController = (() => {
     description.classList.add('description');
     description.textContent = project.getDescription();
 
+    const deleteBtn = document.createElement('div');
+    deleteBtn.classList.add(index, 'editor', 'project-delete', 'material-symbols-outlined');
+    deleteBtn.textContent = 'delete_forever';
+
     card.appendChild(title);
     card.appendChild(description);
+    card.appendChild(deleteBtn);
 
     card.addEventListener('click', () => projectFocus(project, index));
 
