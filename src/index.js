@@ -174,6 +174,26 @@ document.querySelector('#content').addEventListener('click', (e) => {
 /* Todo events */
 
 document.querySelector('#content').addEventListener('click', (e) => {
+  if (e.target
+    && (e.target.matches('div.todo')
+      || e.target.matches('.todo .title')
+      || e.target.matches('.todo .type')
+      || e.target.matches('.todo .priority')
+      || e.target.matches('.todo .due-date')
+      || e.target.matches('.todo .description'))) {
+    const card = document.querySelector(`[class = '${e.target.classList[0]} card todo']`);
+    if (card.childNodes.length === 5) {
+      displayController.expandTodo(
+        projectList[document.querySelector('#main').classList[0]].getTodoList()[e.target.classList[0]],
+        card,
+      );
+    } else if (!(card.childNodes[3].matches('input'))) {
+      displayController.undoExpandTodo(card);
+    }
+  }
+});
+
+document.querySelector('#content').addEventListener('click', (e) => {
   if (e.target && e.target.matches('div.new-todo')) {
     const newTodo = todo('New Todo', 'Description', '2022-06-01', 5, 'Self-Improvement');
     const currentProject = projectList[document.querySelector('#main').classList[0]];
@@ -246,6 +266,24 @@ document.querySelector('#content').addEventListener('click', (e) => {
 });
 
 /* Note events */
+
+document.querySelector('#content').addEventListener('click', (e) => {
+  if (e.target
+    && (e.target.matches('div.note')
+      || e.target.matches('.note .title')
+      || e.target.matches('.note .description')
+      || e.target.matches('.note .buttons'))) {
+    const card = document.querySelector(`[class = '${e.target.classList[0]} card note']`);
+    if (card.childNodes.length === 1) {
+      displayController.expandNote(
+        noteList[e.target.classList[0]],
+        card,
+      );
+    } else if (!(card.childNodes[0].matches('input') || card.childNodes[1].matches('input'))) {
+      displayController.undoExpandNote(card);
+    }
+  }
+});
 
 document.querySelector('#content').addEventListener('click', (e) => {
   if (e.target && e.target.matches('div.new-note')) {

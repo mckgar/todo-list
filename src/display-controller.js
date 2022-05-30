@@ -12,7 +12,7 @@ const displayController = (() => {
     sidebar.id = 'sidebar';
 
     const title = document.createElement('h1');
-    title.textContent = 'title tk';
+    title.textContent = 'Task Manager';
     const links = document.createElement('div');
     links.id = 'links';
     const projectsLink = document.createElement('div');
@@ -67,8 +67,6 @@ const displayController = (() => {
   };
 
   const expandTodo = (todo, card) => {
-    const title = document.querySelector(`[class = '${card.classList[0]} title']`);
-
     const description = document.createElement('p');
     description.classList.add(card.classList[0], 'description');
     description.textContent = todo.getDescription();
@@ -89,9 +87,6 @@ const displayController = (() => {
     card.appendChild(description);
     card.appendChild(checklist);
 
-    // eslint-disable-next-line no-use-before-define
-    title.addEventListener('click', () => undoExpandTodo(todo, card), { once: true });
-
     const buttons = document.createElement('div');
     buttons.classList.add(card.classList[0], 'todo', 'buttons');
     const editBtn = document.createElement('div');
@@ -105,17 +100,13 @@ const displayController = (() => {
     card.appendChild(buttons);
   };
 
-  const undoExpandTodo = (todo, card) => {
+  const undoExpandTodo = (card) => {
     const buttons = document.querySelector(`[class = '${card.classList[0]} todo buttons']`);
     const checklist = document.querySelector(`[class = '${card.classList[0]} checklist']`);
     const description = document.querySelector(`[class = '${card.classList[0]} description']`);
     card.removeChild(buttons);
     card.removeChild(checklist);
     card.removeChild(description);
-
-    const title = document.querySelector(`[class = '${card.classList[0]} title']`);
-
-    title.addEventListener('click', () => expandTodo(todo, card), { once: true });
   };
 
   const createTodoCard = (todo, index) => {
@@ -148,8 +139,6 @@ const displayController = (() => {
     card.appendChild(priority);
     card.appendChild(dueDate);
     card.appendChild(status);
-
-    title.addEventListener('click', () => expandTodo(todo, card), { once: true });
 
     return card;
   };
@@ -610,16 +599,11 @@ const displayController = (() => {
   };
 
   const expandNote = (note, card) => {
-    const title = document.querySelector(`[class = '${card.classList[0]} title']`);
-
     const description = document.createElement('p');
     description.classList.add(card.classList[0], 'description');
     description.textContent = note.getDescription();
 
     card.appendChild(description);
-
-    // eslint-disable-next-line no-use-before-define
-    title.addEventListener('click', () => undoExpandNote(note, card), { once: true });
 
     const buttons = document.createElement('div');
     buttons.classList.add(card.classList[0], 'buttons');
@@ -634,15 +618,11 @@ const displayController = (() => {
     card.appendChild(buttons);
   };
 
-  const undoExpandNote = (note, card) => {
+  const undoExpandNote = (card) => {
     const buttons = document.querySelector(`[class = '${card.classList[0]} buttons']`);
     const description = document.querySelector(`[class = '${card.classList[0]} description']`);
     card.removeChild(buttons);
     card.removeChild(description);
-
-    const title = document.querySelector(`[class = '${card.classList[0]} title']`);
-
-    title.addEventListener('click', () => expandNote(note, card), { once: true });
   };
 
   const createNoteCard = (note, index) => {
@@ -652,8 +632,6 @@ const displayController = (() => {
     const title = document.createElement('h3');
     title.classList.add(index, 'title');
     title.textContent = note.getTitle();
-
-    title.addEventListener('click', () => expandNote(note, card), { once: true });
 
     card.appendChild(title);
 
@@ -804,8 +782,12 @@ const displayController = (() => {
     editProject,
     editTodo,
     removeTodo,
+    expandTodo,
+    undoExpandTodo,
     editNote,
     removeNote,
+    expandNote,
+    undoExpandNote,
     addChecklistItem,
     editChecklistItem,
     removeChecklistItem,
