@@ -213,21 +213,23 @@ const displayController = (() => {
     card.classList.add(index, 'card', 'project');
 
     const title = document.createElement('h3');
-    title.classList.add('title');
+    title.classList.add(index, 'title');
     title.textContent = project.getTitle();
     const description = document.createElement('p');
-    description.classList.add('description');
+    description.classList.add(index, 'description');
     description.textContent = project.getDescription();
 
+    const editBtn = document.createElement('div');
+    editBtn.classList.add(index, 'editor', 'project-edit', 'material-symbols-outlined');
+    editBtn.textContent = 'edit_note';
     const deleteBtn = document.createElement('div');
     deleteBtn.classList.add(index, 'editor', 'project-delete', 'material-symbols-outlined');
     deleteBtn.textContent = 'delete_forever';
 
     card.appendChild(title);
     card.appendChild(description);
+    card.appendChild(editBtn);
     card.appendChild(deleteBtn);
-
-    card.addEventListener('click', () => projectFocus(project, index));
 
     return card;
   };
@@ -279,11 +281,45 @@ const displayController = (() => {
     content.appendChild(projectsOverviewMain(projectList));
   };
 
-  const addNewProject = (project, index) => {
-    const projects = document.querySelector('.projects');
-    const newProject = createProjectCard(project, index);
-    const addNewProjectBtn = document.querySelector('.add.new-project');
-    projects.insertBefore(newProject, addNewProjectBtn);
+  const editProjectCard = (project, card) => {
+    const editTitle = document.createElement('input');
+    editTitle.type = 'text';
+    editTitle.name = 'edit-title';
+    editTitle.id = 'edit-title';
+    const editDescription = document.createElement('textarea');
+    editDescription.name = 'edit-description';
+    editDescription.id = 'edit-description';
+    const confirmBtn = document.createElement('div');
+    confirmBtn.classList.add('editor', 'project-save', 'material-symbols-outlined');
+    confirmBtn.textContent = 'save';
+
+    const title = document.querySelector(`[class = '${card.classList[[0]]} title']`);
+    editTitle.value = title.textContent;
+    const description = document.querySelector(`[class = '${card.classList[[0]]} description']`);
+    editDescription.value = description.textContent;
+    const editBtn = document.querySelector(`[class='${card.classList[0]} editor project-edit material-symbols-outlined']`);
+
+    card.removeChild(title);
+    card.removeChild(description);
+    card.removeChild(editBtn);
+    card.appendChild(editTitle);
+    card.appendChild(editDescription);
+    card.appendChild(confirmBtn);
+
+    confirmBtn.addEventListener('click', () => {
+      project.setTitle(editTitle.value);
+      project.setDescription(editDescription.value);
+
+      title.textContent = project.getTitle();
+      description.textContent = project.getDescription();
+
+      card.removeChild(editTitle);
+      card.removeChild(editDescription);
+      card.removeChild(confirmBtn);
+      card.appendChild(title);
+      card.appendChild(description);
+      card.appendChild(editBtn);
+    });
   };
 
   const editProject = (project, card) => {
@@ -293,8 +329,7 @@ const displayController = (() => {
     editTitle.type = 'text';
     editTitle.name = 'edit-title';
     editTitle.id = 'edit-title';
-    const editDescription = document.createElement('input');
-    editDescription.type = 'text';
+    const editDescription = document.createElement('textarea');
     editDescription.name = 'edit-description';
     editDescription.id = 'edit-description';
     const confirmBtn = document.createElement('div');
@@ -331,10 +366,12 @@ const displayController = (() => {
     });
   };
 
-  const addChecklistItem = (todo, index) => {
-    const newItem = createListItem(todo, todo.getList().length - 1);
-    const checklist = document.querySelector(`[class = '${index} checklist']`);
-    checklist.insertBefore(newItem, document.querySelector(`[class = '${index} add-checklist-item']`));
+  const addNewProject = (project, index) => {
+    const projects = document.querySelector('.projects');
+    const newProject = createProjectCard(project, index);
+    const addNewProjectBtn = document.querySelector('.add.new-project');
+    projects.insertBefore(newProject, addNewProjectBtn);
+    editProjectCard(project, newProject);
   };
 
   const editChecklistItem = (todo, cardIndex, itemIndex) => {
@@ -370,6 +407,13 @@ const displayController = (() => {
       item.insertBefore(itemName, buttons);
       buttons.appendChild(editBtn);
     });
+  };
+
+  const addChecklistItem = (todo, index) => {
+    const newItem = createListItem(todo, todo.getList().length - 1);
+    const checklist = document.querySelector(`[class = '${index} checklist']`);
+    checklist.insertBefore(newItem, document.querySelector(`[class = '${index} add-checklist-item']`));
+    editChecklistItem(todo, index, todo.getList().length - 1);
   };
 
   const removeChecklistItem = (cardIndex, itemIndex) => {
@@ -756,6 +800,7 @@ const displayController = (() => {
     addNewProject,
     addNewNote,
     addNewTodo,
+    editProjectCard,
     editProject,
     editTodo,
     removeTodo,

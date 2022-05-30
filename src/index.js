@@ -96,9 +96,17 @@ notesLink.addEventListener('click', () => displayController.notesOverview(noteLi
 const settingsLink = document.querySelector('#settings');
 settingsLink.addEventListener('click', () => displayController.settingsOverview());
 
+/* Project events */
+
 document.querySelector('#content').addEventListener('click', (e) => {
-  if (e.target && e.target.matches('div.return-projects')) {
-    displayController.projectsOverview(projectList);
+  if (e.target
+    && (e.target.matches('div.project')
+      || e.target.matches('.project .title')
+      || e.target.matches('.project .description'))) {
+    displayController.projectFocus(
+      projectList[e.target.classList[0]],
+      e.target.classList[0],
+    );
   }
 });
 
@@ -112,10 +120,31 @@ document.querySelector('#content').addEventListener('click', (e) => {
 });
 
 document.querySelector('#content').addEventListener('click', (e) => {
+  if (e.target && e.target.matches('div.project-edit')) {
+    displayController.editProjectCard(
+      projectList[e.target.classList[0]],
+      document.querySelector(`[class = '${e.target.classList[0]} card project']`),
+    );
+  }
+});
+
+document.querySelector('#content').addEventListener('click', (e) => {
   if (e.target && e.target.matches('div.project-delete')) {
     projectList.splice(e.target.classList[0], 1);
     displayController.projectsOverview(projectList);
     populateStorage();
+  }
+});
+
+document.querySelector('#content').addEventListener('click', (e) => {
+  if (e.target && e.target.matches('div.project-save')) {
+    populateStorage();
+  }
+});
+
+document.querySelector('#content').addEventListener('click', (e) => {
+  if (e.target && e.target.matches('div.return-projects')) {
+    displayController.projectsOverview(projectList);
   }
 });
 
@@ -141,6 +170,8 @@ document.querySelector('#content').addEventListener('click', (e) => {
     populateStorage();
   }
 });
+
+/* Todo events */
 
 document.querySelector('#content').addEventListener('click', (e) => {
   if (e.target && e.target.matches('div.new-todo')) {
@@ -174,6 +205,8 @@ document.querySelector('#content').addEventListener('click', (e) => {
     populateStorage();
   }
 });
+
+/* Checklist events */
 
 document.querySelector('#content').addEventListener('click', (e) => {
   if (e.target && e.target.matches('p.add-checklist-item')) {
@@ -211,6 +244,8 @@ document.querySelector('#content').addEventListener('click', (e) => {
     populateStorage();
   }
 });
+
+/* Note events */
 
 document.querySelector('#content').addEventListener('click', (e) => {
   if (e.target && e.target.matches('div.new-note')) {
