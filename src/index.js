@@ -144,7 +144,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
 
 document.querySelector('#content').addEventListener('click', (e) => {
   if (e.target && e.target.matches('div.new-todo')) {
-    const newTodo = todo('New Todo', 'Description', '2077-10-23', 5, 'Self-Improvement');
+    const newTodo = todo('New Todo', 'Description', '2022-06-01', 5, 'Self-Improvement');
     const currentProject = projectList[document.querySelector('#main').classList[0]];
     currentProject.addTodo(newTodo);
     displayController.addNewTodo(newTodo, currentProject.getTodoList().length - 1);

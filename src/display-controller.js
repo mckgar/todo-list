@@ -331,13 +331,6 @@ const displayController = (() => {
     });
   };
 
-  const addNewTodo = (todo, index) => {
-    const todos = document.querySelector('.project-info');
-    const newTodo = createTodoCard(todo, index);
-    const addNewTodoBtn = document.querySelector('.add.new-todo');
-    todos.insertBefore(newTodo, addNewTodoBtn);
-  };
-
   const addChecklistItem = (todo, index) => {
     const newItem = createListItem(todo, todo.getList().length - 1);
     const checklist = document.querySelector(`[class = '${index} checklist']`);
@@ -450,15 +443,20 @@ const displayController = (() => {
     editPriority.name = 'edit-priority';
     editPriority.id = 'edit-priority';
     const priority1 = document.createElement('option');
-    priority1.textContent = '1';
+    priority1.textContent = 'Priority: 1';
+    priority1.value = '1';
     const priority2 = document.createElement('option');
-    priority2.textContent = '2';
+    priority2.textContent = 'Priority: 2';
+    priority2.value = '2';
     const priority3 = document.createElement('option');
-    priority3.textContent = '3';
+    priority3.textContent = 'Priority: 3';
+    priority3.value = '3';
     const priority4 = document.createElement('option');
-    priority4.textContent = '4';
+    priority4.textContent = 'Priority: 4';
+    priority4.value = '4';
     const priority5 = document.createElement('option');
-    priority5.textContent = '5';
+    priority5.textContent = 'Priority: 5';
+    priority5.value = '5';
     editPriority.appendChild(priority1);
     editPriority.appendChild(priority2);
     editPriority.appendChild(priority3);
@@ -525,6 +523,15 @@ const displayController = (() => {
       card.appendChild(description);
       buttons.appendChild(editBtn);
     });
+  };
+
+  const addNewTodo = (todo, index) => {
+    const todos = document.querySelector('.project-info');
+    const newTodo = createTodoCard(todo, index);
+    const addNewTodoBtn = document.querySelector('.add.new-todo');
+    todos.insertBefore(newTodo, addNewTodoBtn);
+    expandTodo(todo, newTodo);
+    editTodo(todo, newTodo);
   };
 
   const removeTodo = (index) => {
@@ -640,13 +647,6 @@ const displayController = (() => {
     content.appendChild(notesOverviewMain(notesList));
   };
 
-  const addNewNote = (note, index) => {
-    const notes = document.querySelector('.notes');
-    const newNote = createNoteCard(note, index);
-    const addNewNoteBtn = document.querySelector('.add.new-note');
-    notes.insertBefore(newNote, addNewNoteBtn);
-  };
-
   const editNote = (note, card) => {
     const buttons = document.querySelector(`[class = '${card.classList[0]} buttons']`);
 
@@ -690,6 +690,15 @@ const displayController = (() => {
       card.appendChild(description);
       buttons.appendChild(editBtn);
     });
+  };
+
+  const addNewNote = (note, index) => {
+    const notes = document.querySelector('.notes');
+    const newNote = createNoteCard(note, index);
+    const addNewNoteBtn = document.querySelector('.add.new-note');
+    notes.insertBefore(newNote, addNewNoteBtn);
+    expandNote(note, newNote);
+    editNote(note, newNote);
   };
 
   const removeNote = (index) => {
